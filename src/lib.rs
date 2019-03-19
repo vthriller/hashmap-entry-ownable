@@ -103,4 +103,99 @@ where
 				e.insert(self.key.to_owned(), default).1,
 		}
 	}
+
+	/**
+	Ensures a value is in the entry by inserting the result of the default function if empty,
+	and returns a mutable reference to the value in the entry.
+
+	# Examples
+
+	```
+	use std::collections::HashMap;
+	use hashmap_entry_ownable::EntryAPI;
+
+	let mut map: HashMap<String, String> = HashMap::new();
+	let s = "hoho".to_string();
+
+	map.entry_ownable("poneyland").or_insert_with(|| s);
+
+	assert_eq!(map["poneyland"], "hoho".to_string());
+	```
+	*/
+	pub fn or_insert_with<F: FnOnce() -> V>(self, default: F) -> &'a mut V {
+		match self.raw {
+			RawEntryMut::Occupied(e) =>
+				e.into_mut(),
+			RawEntryMut::Vacant(e) =>
+				e.insert(self.key.to_owned(), default()).1,
+		}
+	}
+
+	/**
+	Provides in-place mutable access to an occupied entry before any
+	potential inserts into the map.
+
+	# Examples
+
+	```
+	use std::collections::HashMap;
+	use hashmap_entry_ownable::EntryAPI;
+
+	let mut map: HashMap<String, u32> = HashMap::new();
+
+	map.entry_ownable("poneyland")
+		.and_modify(|e| { *e += 1 })
+		.or_insert(42);
+	assert_eq!(map["poneyland"], 42);
+
+	map.entry_ownable("poneyland")
+		.and_modify(|e| { *e += 1 })
+		.or_insert(42);
+	assert_eq!(map["poneyland"], 43);
+	```
+	*/
+	pub fn and_modify<F>(mut self, f: F) -> Self
+		where F: FnOnce(&mut V)
+	{
+		match self.raw {
+			RawEntryMut::Occupied(ref mut e) =>
+				f(e.get_mut()),
+			RawEntryMut::Vacant(_) =>
+				(),
+		}
+		self
+	}
+}
+
+impl<'a, 'q, K, Q, V, S> Entry<'a, 'q, K, Q, V, S>
+where
+	K: Borrow<Q> + Hash,
+	Q: ToOwned<Owned = K> + ?Sized,
+	V: Default,
+	S: BuildHasher
+{
+	/**
+	Ensures a value is in the entry by inserting the default value if empty,
+	and returns a mutable reference to the value in the entry.
+
+	# Examples
+
+	```
+	use std::collections::HashMap;
+	use hashmap_entry_ownable::EntryAPI;
+
+	let mut map: HashMap<String, Option<u32>> = HashMap::new();
+	map.entry_ownable("poneyland").or_default();
+
+	assert_eq!(map["poneyland"], None);
+	```
+	*/
+	pub fn or_default(self) -> &'a mut V {
+		match self.raw {
+			RawEntryMut::Occupied(e) =>
+				e.into_mut(),
+			RawEntryMut::Vacant(e) =>
+				e.insert(self.key.to_owned(), Default::default()).1,
+		}
+	}
 }
