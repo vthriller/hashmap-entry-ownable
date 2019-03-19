@@ -9,7 +9,7 @@ use std::hash::{Hash, BuildHasher};
 pub trait EntryAPI<K, Q, V, S>
 where
 	K: Borrow<Q>,
-	Q: ToOwned<Owned = K>,
+	Q: ToOwned<Owned = K> + ?Sized,
 {
 	fn entry_ownable<'a, 'q>(&'a mut self, key: &'q Q) -> Entry<'a, 'q, K, Q, V, S>;
 }
@@ -17,7 +17,7 @@ where
 impl<K, Q, V, S> EntryAPI<K, Q, V, S> for HashMap<K, V, S>
 where
 	K: Borrow<Q> + Hash + Eq,
-	Q: ToOwned<Owned = K> + Hash + Eq,
+	Q: ToOwned<Owned = K> + Hash + Eq + ?Sized,
 	S: BuildHasher
 {
 	fn entry_ownable<'a, 'q>(&'a mut self, key: &'q Q) -> Entry<'a, 'q, K, Q, V, S> {
@@ -31,7 +31,7 @@ where
 pub struct Entry<'a, 'q, K, Q, V, S>
 where
 	K: Borrow<Q>,
-	Q: ToOwned<Owned = K>,
+	Q: ToOwned<Owned = K> + ?Sized
 {
 	key: &'q Q,
 	raw: RawEntryMut<'a, K, V, S>,
@@ -40,7 +40,7 @@ where
 impl<'a, 'q, K, Q, V, S> Entry<'a, 'q, K, Q, V, S>
 where
 	K: Borrow<Q> + Hash,
-	Q: ToOwned<Owned = K>,
+	Q: ToOwned<Owned = K> + ?Sized,
 	S: BuildHasher
 {
 	pub fn or_insert(self, default: V) -> &'a mut V {
