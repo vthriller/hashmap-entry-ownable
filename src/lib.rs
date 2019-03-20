@@ -1,4 +1,6 @@
 #![feature(hash_raw_entry)]
+#![feature(test)]
+
 use std::borrow::Borrow;
 use std::collections::hash_map::{
 	HashMap,
@@ -198,4 +200,78 @@ where
 				e.insert(self.key.to_owned(), Default::default()).1,
 		}
 	}
+}
+
+#[cfg(test)]
+mod silly_bench {
+	extern crate test;
+	use test::Bencher;
+
+	use std::collections::HashMap;
+	use super::EntryAPI;
+
+	// that's basically copied and pasted from Wikipedia, then, in vim,
+	// s/[,."?]//g
+	// s/\n\+/ /g
+	// gu
+	const rhyme: &'static str = "mary had a little lamb little lamb little lamb mary had a little lamb whose fleece was white as snow and everywhere that mary went mary went mary went everywhere that mary went the lamb was sure to go he followed her to school one day school one day school one day he followed her to school one day which was against the rules it made the children laugh and play laugh and play laugh and play it made the children laugh and play to see a lamb at school and so the teacher turned it out turned it out turned it out and so the teacher turned it out but still it lingered near he waited patiently about patiently about patiently about he waited patiently about till mary did appear why does the lamb love mary so love mary so love mary so why does the lamb love mary so the eager children cried why mary loves the lamb you know lamb you know lamb you know why mary loves the lamb you know the teacher did reply";
+
+	fn data(n: usize) -> Vec<&'static str> {
+		let single: Vec<&str> = rhyme.split(' ').collect();
+		let mut multiplied = vec![];
+		for _ in 0..n {
+			multiplied.append(&mut single.clone());
+		}
+		multiplied
+	}
+
+	fn entry(b: &mut Bencher, n: usize) {
+		let data = data(n);
+		b.iter(|| {
+			let mut map: HashMap<String, _> = HashMap::new();
+			for &i in &data {
+				let counter = map.entry(i.to_string()).or_insert(0);
+				*counter += 1;
+			}
+		})
+	}
+
+	#[bench] fn entry_1(b: &mut Bencher) { entry(b, 1) }
+	#[bench] fn entry_2(b: &mut Bencher) { entry(b, 2) }
+	#[bench] fn entry_4(b: &mut Bencher) { entry(b, 4) }
+	#[bench] fn entry_8(b: &mut Bencher) { entry(b, 8) }
+
+	fn entry_ownable(b: &mut Bencher, n: usize) {
+		let data = data(n);
+		b.iter(|| {
+			let mut map: HashMap<String, _> = HashMap::new();
+			for &i in &data {
+				let counter = map.entry_ownable(i).or_insert(0);
+				*counter += 1;
+			}
+		})
+	}
+
+	#[bench] fn entry_ownable_1(b: &mut Bencher) { entry_ownable(b, 1) }
+	#[bench] fn entry_ownable_2(b: &mut Bencher) { entry_ownable(b, 2) }
+	#[bench] fn entry_ownable_4(b: &mut Bencher) { entry_ownable(b, 4) }
+	#[bench] fn entry_ownable_8(b: &mut Bencher) { entry_ownable(b, 8) }
+
+	fn get_or_insert(b: &mut Bencher, n: usize) {
+		let data = data(n);
+		b.iter(|| {
+			let mut map: HashMap<String, _> = HashMap::new();
+			for &i in &data {
+				match map.get_mut(i) {
+					Some(v) => { *v += 1; },
+					None => { map.insert(i.to_string(), 1); },
+				}
+			}
+		})
+	}
+
+	#[bench] fn get_or_insert_1(b: &mut Bencher) { get_or_insert(b, 1) }
+	#[bench] fn get_or_insert_2(b: &mut Bencher) { get_or_insert(b, 2) }
+	#[bench] fn get_or_insert_4(b: &mut Bencher) { get_or_insert(b, 4) }
+	#[bench] fn get_or_insert_8(b: &mut Bencher) { get_or_insert(b, 8) }
 }
