@@ -2,7 +2,16 @@
 
 Variation of `HashMap::entry()` that accepts borrowed forms of keys.
 
+## Compatibility
+
 This crate requires nightly version of Rust (see [`hash_raw_entry`](https://github.com/rust-lang/rust/issues/56167)).
+
+`entry_ownable()` can be used as a drop-in replacement for `entry()`, *unless*:
+
+- `Entry::key()` is used,
+- entry is matched as a enum (`Entry::Occupied`/`Entry::Vacant`).
+
+## Description
 
 Use this crate if you create/update a lot of entries from borrowed forms of keys (e.g. from `&str` instead of `String`):
 
