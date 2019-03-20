@@ -52,3 +52,7 @@ test silly_bench::entry_8         ... bench:  11,278,344 ns/iter (+/- 82,014)
 test silly_bench::get_or_insert_8 ... bench:   6,602,424 ns/iter (+/- 33,360)
 test silly_bench::entry_ownable_8 ... bench:   5,631,416 ns/iter (+/- 54,613)
 ```
+
+## License
+
+This crate borrows heavily from Rust's own libstd, hence [Apache 2.0](LICENSE-APACHE) and [MIT](LICENSE-MIT).
