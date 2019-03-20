@@ -55,6 +55,7 @@ where
 	Q: ToOwned<Owned = K> + Hash + Eq + ?Sized,
 	S: BuildHasher
 {
+	#[inline]
 	fn entry_ownable<'a, 'q>(&'a mut self, key: &'q Q) -> Entry<'a, 'q, K, Q, V, S> {
 		Entry {
 			key,
@@ -97,6 +98,7 @@ where
 	assert_eq!(map["poneyland"], 6);
 	```
 	*/
+	#[inline]
 	pub fn or_insert(self, default: V) -> &'a mut V {
 		match self.raw {
 			RawEntryMut::Occupied(e) =>
@@ -124,6 +126,7 @@ where
 	assert_eq!(map["poneyland"], "hoho".to_string());
 	```
 	*/
+	#[inline]
 	pub fn or_insert_with<F: FnOnce() -> V>(self, default: F) -> &'a mut V {
 		match self.raw {
 			RawEntryMut::Occupied(e) =>
@@ -156,6 +159,7 @@ where
 	assert_eq!(map["poneyland"], 43);
 	```
 	*/
+	#[inline]
 	pub fn and_modify<F>(mut self, f: F) -> Self
 		where F: FnOnce(&mut V)
 	{
@@ -192,6 +196,7 @@ where
 	assert_eq!(map["poneyland"], None);
 	```
 	*/
+	#[inline]
 	pub fn or_default(self) -> &'a mut V {
 		match self.raw {
 			RawEntryMut::Occupied(e) =>
