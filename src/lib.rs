@@ -2,7 +2,7 @@
 #![feature(test)]
 
 use std::borrow::Borrow;
-use std::collections::hash_map::{
+use hashbrown::hash_map::{
 	HashMap,
 	RawEntryMut,
 };
@@ -23,7 +23,7 @@ where
 	# Examples
 
 	```
-	use std::collections::HashMap;
+	use hashbrown::HashMap;
 	use hashmap_entry_ownable::EntryAPI;
 
 	let mut words: HashMap<String, _> = HashMap::new();
@@ -88,7 +88,7 @@ where
 	# Examples
 
 	```
-	use std::collections::HashMap;
+	use hashbrown::HashMap;
 	use hashmap_entry_ownable::EntryAPI;
 
 	let mut map: HashMap<String, u32> = HashMap::new();
@@ -117,7 +117,7 @@ where
 	# Examples
 
 	```
-	use std::collections::HashMap;
+	use hashbrown::HashMap;
 	use hashmap_entry_ownable::EntryAPI;
 
 	let mut map: HashMap<String, String> = HashMap::new();
@@ -145,7 +145,7 @@ where
 	# Examples
 
 	```
-	use std::collections::HashMap;
+	use hashbrown::HashMap;
 	use hashmap_entry_ownable::EntryAPI;
 
 	let mut map: HashMap<String, u32> = HashMap::new();
@@ -189,7 +189,7 @@ where
 	# Examples
 
 	```
-	use std::collections::HashMap;
+	use hashbrown::HashMap;
 	use hashmap_entry_ownable::EntryAPI;
 
 	let mut map: HashMap<String, Option<u32>> = HashMap::new();
@@ -214,7 +214,7 @@ mod silly_bench {
 	extern crate test;
 	use test::Bencher;
 
-	use std::collections::HashMap;
+	use hashbrown::HashMap;
 	use super::EntryAPI;
 
 	fn data() -> Vec<String> {
