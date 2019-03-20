@@ -2,6 +2,7 @@
 name = "hashmap-entry-ownable"
 version = "0.1.0"
 authors = ["vthriller <unixway.drive+rs@gmail.com>"]
+readme = "README.md"
 edition = "2018"
 
 [dependencies]
