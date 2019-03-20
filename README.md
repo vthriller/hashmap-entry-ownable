@@ -6,7 +6,7 @@ This crate requires nightly version of Rust (see [`hash_raw_entry`](https://gith
 
 Use this crate if you create/update a lot of entries from borrowed forms of keys (e.g. from `&str` instead of `String`):
 
-```
+```rust
 use std::collections::HashMap;
 use hashmap_entry_ownable::EntryAPI;
 
