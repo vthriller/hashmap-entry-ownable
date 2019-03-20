@@ -17,11 +17,8 @@ where
 	Gets the given key's corresponding entry in the map for in-place manipulation, creating
 	copy of the key if necessary.
 
-	The key may be any borrowed form of the map's key type, but [`Hash`] and [`Eq`] on the
+	The key may be any borrowed form of the map's key type, but `Hash` and `Eq` on the
 	borrowed form *must* match those for the key type.
-
-	[`Eq`]: ../../std/cmp/trait.Eq.html
-	[`Hash`]: ../../std/hash/trait.Hash.html
 
 	# Examples
 
