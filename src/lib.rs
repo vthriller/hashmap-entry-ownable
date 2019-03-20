@@ -222,7 +222,7 @@ mod silly_bench {
 		let data = data();
 		let data: Vec<&str> = data.iter().map(|s| s.as_str()).collect();
 		b.iter(|| {
-			let mut map: HashMap<String, _> = HashMap::new();
+			let mut map: HashMap<String, _> = HashMap::with_capacity(data.len());
 			for _ in 0..n {
 				for &i in &data {
 					let counter = map.entry(i.to_string()).or_insert(0);
@@ -241,7 +241,7 @@ mod silly_bench {
 		let data = data();
 		let data: Vec<&str> = data.iter().map(|s| s.as_str()).collect();
 		b.iter(|| {
-			let mut map: HashMap<String, _> = HashMap::new();
+			let mut map: HashMap<String, _> = HashMap::with_capacity(data.len());
 			for _ in 0..n {
 				for &i in &data {
 					let counter = map.entry_ownable(i).or_insert(0);
@@ -260,7 +260,7 @@ mod silly_bench {
 		let data = data();
 		let data: Vec<&str> = data.iter().map(|s| s.as_str()).collect();
 		b.iter(|| {
-			let mut map: HashMap<String, _> = HashMap::new();
+			let mut map: HashMap<String, _> = HashMap::with_capacity(data.len());
 			for _ in 0..n {
 				for &i in &data {
 					match map.get_mut(i) {
