@@ -1,5 +1,6 @@
 [package]
 name = "hashmap-entry-ownable"
+description = "Variation of HashMap::entry() that accepts borrowed forms of keys"
 version = "0.1.0"
 authors = ["vthriller <unixway.drive+rs@gmail.com>"]
 repository = "https://github.com/vthriller/hashmap-entry-ownable"
