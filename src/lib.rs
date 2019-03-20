@@ -212,28 +212,22 @@ mod silly_bench {
 	use std::collections::HashMap;
 	use super::EntryAPI;
 
-	// that's basically copied and pasted from Wikipedia, then, in vim,
-	// s/[,."?]//g
-	// s/\n\+/ /g
-	// gu
-	const rhyme: &'static str = "mary had a little lamb little lamb little lamb mary had a little lamb whose fleece was white as snow and everywhere that mary went mary went mary went everywhere that mary went the lamb was sure to go he followed her to school one day school one day school one day he followed her to school one day which was against the rules it made the children laugh and play laugh and play laugh and play it made the children laugh and play to see a lamb at school and so the teacher turned it out turned it out turned it out and so the teacher turned it out but still it lingered near he waited patiently about patiently about patiently about he waited patiently about till mary did appear why does the lamb love mary so love mary so love mary so why does the lamb love mary so the eager children cried why mary loves the lamb you know lamb you know lamb you know why mary loves the lamb you know the teacher did reply";
-
-	fn data(n: usize) -> Vec<&'static str> {
-		let single: Vec<&str> = rhyme.split(' ').collect();
-		let mut multiplied = vec![];
-		for _ in 0..n {
-			multiplied.append(&mut single.clone());
-		}
-		multiplied
+	fn data() -> Vec<String> {
+		(1..8192)
+			.map(|n| format!("{:013b}", n))
+			.collect()
 	}
 
 	fn entry(b: &mut Bencher, n: usize) {
-		let data = data(n);
+		let data = data();
+		let data: Vec<&str> = data.iter().map(|s| s.as_str()).collect();
 		b.iter(|| {
 			let mut map: HashMap<String, _> = HashMap::new();
+			for _ in 0..n {
 			for &i in &data {
 				let counter = map.entry(i.to_string()).or_insert(0);
 				*counter += 1;
+			}
 			}
 		})
 	}
@@ -244,12 +238,15 @@ mod silly_bench {
 	#[bench] fn entry_8(b: &mut Bencher) { entry(b, 8) }
 
 	fn entry_ownable(b: &mut Bencher, n: usize) {
-		let data = data(n);
+		let data = data();
+		let data: Vec<&str> = data.iter().map(|s| s.as_str()).collect();
 		b.iter(|| {
 			let mut map: HashMap<String, _> = HashMap::new();
+			for _ in 0..n {
 			for &i in &data {
 				let counter = map.entry_ownable(i).or_insert(0);
 				*counter += 1;
+			}
 			}
 		})
 	}
@@ -260,14 +257,17 @@ mod silly_bench {
 	#[bench] fn entry_ownable_8(b: &mut Bencher) { entry_ownable(b, 8) }
 
 	fn get_or_insert(b: &mut Bencher, n: usize) {
-		let data = data(n);
+		let data = data();
+		let data: Vec<&str> = data.iter().map(|s| s.as_str()).collect();
 		b.iter(|| {
 			let mut map: HashMap<String, _> = HashMap::new();
+			for _ in 0..n {
 			for &i in &data {
 				match map.get_mut(i) {
 					Some(v) => { *v += 1; },
 					None => { map.insert(i.to_string(), 1); },
 				}
+			}
 			}
 		})
 	}
