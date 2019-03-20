@@ -60,7 +60,7 @@ where
 		Entry {
 			key,
 			hash,
-			raw: self.raw_entry_mut().from_key(key),
+			raw: self.raw_entry_mut().from_key_hashed_nocheck(hash, key),
 		}
 	}
 }
