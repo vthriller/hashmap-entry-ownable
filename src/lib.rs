@@ -224,10 +224,10 @@ mod silly_bench {
 		b.iter(|| {
 			let mut map: HashMap<String, _> = HashMap::new();
 			for _ in 0..n {
-			for &i in &data {
-				let counter = map.entry(i.to_string()).or_insert(0);
-				*counter += 1;
-			}
+				for &i in &data {
+					let counter = map.entry(i.to_string()).or_insert(0);
+					*counter += 1;
+				}
 			}
 		})
 	}
@@ -243,10 +243,10 @@ mod silly_bench {
 		b.iter(|| {
 			let mut map: HashMap<String, _> = HashMap::new();
 			for _ in 0..n {
-			for &i in &data {
-				let counter = map.entry_ownable(i).or_insert(0);
-				*counter += 1;
-			}
+				for &i in &data {
+					let counter = map.entry_ownable(i).or_insert(0);
+					*counter += 1;
+				}
 			}
 		})
 	}
@@ -262,12 +262,12 @@ mod silly_bench {
 		b.iter(|| {
 			let mut map: HashMap<String, _> = HashMap::new();
 			for _ in 0..n {
-			for &i in &data {
-				match map.get_mut(i) {
-					Some(v) => { *v += 1; },
-					None => { map.insert(i.to_string(), 1); },
+				for &i in &data {
+					match map.get_mut(i) {
+						Some(v) => { *v += 1; },
+						None => { map.insert(i.to_string(), 1); },
+					}
 				}
-			}
 			}
 		})
 	}
