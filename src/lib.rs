@@ -6,7 +6,7 @@ use std::collections::hash_map::{
 	HashMap,
 	RawEntryMut,
 };
-use std::hash::{Hash, BuildHasher};
+use std::hash::{Hash, Hasher, BuildHasher};
 
 pub trait EntryAPI<K, Q, V, S>
 where
@@ -54,8 +54,12 @@ where
 {
 	#[inline]
 	fn entry_ownable<'a, 'q>(&'a mut self, key: &'q Q) -> Entry<'a, 'q, K, Q, V, S> {
+		let mut hasher = self.hasher().build_hasher();
+		key.hash(&mut hasher);
+		let hash = hasher.finish();
 		Entry {
 			key,
+			hash,
 			raw: self.raw_entry_mut().from_key(key),
 		}
 	}
@@ -67,6 +71,7 @@ where
 	Q: ToOwned<Owned = K> + ?Sized
 {
 	key: &'q Q,
+	hash: u64,
 	raw: RawEntryMut<'a, K, V, S>,
 }
 
@@ -101,7 +106,7 @@ where
 			RawEntryMut::Occupied(e) =>
 				e.into_mut(),
 			RawEntryMut::Vacant(e) =>
-				e.insert(self.key.to_owned(), default).1,
+				e.insert_hashed_nocheck(self.hash, self.key.to_owned(), default).1,
 		}
 	}
 
@@ -129,7 +134,7 @@ where
 			RawEntryMut::Occupied(e) =>
 				e.into_mut(),
 			RawEntryMut::Vacant(e) =>
-				e.insert(self.key.to_owned(), default()).1,
+				e.insert_hashed_nocheck(self.hash, self.key.to_owned(), default()).1,
 		}
 	}
 
@@ -199,7 +204,7 @@ where
 			RawEntryMut::Occupied(e) =>
 				e.into_mut(),
 			RawEntryMut::Vacant(e) =>
-				e.insert(self.key.to_owned(), Default::default()).1,
+				e.insert_hashed_nocheck(self.hash, self.key.to_owned(), Default::default()).1,
 		}
 	}
 }
