@@ -206,7 +206,7 @@ where
 	}
 }
 
-#[cfg(test)]
+#[cfg(all(test, feature = "nightly"))]
 mod silly_bench {
 	extern crate test;
 	use test::Bencher;
