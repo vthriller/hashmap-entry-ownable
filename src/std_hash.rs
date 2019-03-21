@@ -21,7 +21,7 @@ where
 
 	```
 	use std::collections::HashMap;
-	use hashmap_entry_ownable::EntryAPI;
+	use hashmap_entry_ownable::std_hash::EntryAPI;
 
 	let mut words: HashMap<String, _> = HashMap::new();
 
@@ -86,7 +86,7 @@ where
 
 	```
 	use std::collections::HashMap;
-	use hashmap_entry_ownable::EntryAPI;
+	use hashmap_entry_ownable::std_hash::EntryAPI;
 
 	let mut map: HashMap<String, u32> = HashMap::new();
 
@@ -115,7 +115,7 @@ where
 
 	```
 	use std::collections::HashMap;
-	use hashmap_entry_ownable::EntryAPI;
+	use hashmap_entry_ownable::std_hash::EntryAPI;
 
 	let mut map: HashMap<String, String> = HashMap::new();
 	let s = "hoho".to_string();
@@ -143,7 +143,7 @@ where
 
 	```
 	use std::collections::HashMap;
-	use hashmap_entry_ownable::EntryAPI;
+	use hashmap_entry_ownable::std_hash::EntryAPI;
 
 	let mut map: HashMap<String, u32> = HashMap::new();
 
@@ -187,7 +187,7 @@ where
 
 	```
 	use std::collections::HashMap;
-	use hashmap_entry_ownable::EntryAPI;
+	use hashmap_entry_ownable::std_hash::EntryAPI;
 
 	let mut map: HashMap<String, Option<u32>> = HashMap::new();
 	map.entry_ownable("poneyland").or_default();

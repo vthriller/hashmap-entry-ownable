@@ -17,7 +17,7 @@ Use this crate if you create/update a lot of entries from borrowed forms of keys
 
 ```rust
 use std::collections::HashMap;
-use hashmap_entry_ownable::EntryAPI;
+use hashmap_entry_ownable::std_hash::EntryAPI;
 
 let rhyme = vec![
 	"Mary", "had", "a", "little", "lamb",
