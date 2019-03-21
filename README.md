@@ -5,7 +5,7 @@ Variation of `HashMap::entry()` that accepts borrowed forms of keys.
 ## Compatibility
 
 For `std::collections::HashMap`, nightly version of Rust is required, along with the crate feature `nightly`.
-For details, see [`hash_raw_entry`](https://github.com/rust-lang/rust/issues/56167)).
+See [tracking issue for `hash_raw_entry`](https://github.com/rust-lang/rust/issues/56167) for details.
 
 Support for [hashbrown](https://github.com/Amanieu/hashbrown/) can be enabled through crate feature aptly called `hashbrown`.
 
