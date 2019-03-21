@@ -44,6 +44,8 @@ but `entry_ownable()` variant:
 
 ## Benchmarks
 
+`std::collections::HashMap`:
+
 ```
 test silly_bench::entry_1         ... bench:   2,162,452 ns/iter (+/- 17,586)
 test silly_bench::get_or_insert_1 ... bench:   2,310,910 ns/iter (+/- 7,183)
@@ -60,6 +62,26 @@ test silly_bench::entry_ownable_4 ... bench:   3,321,019 ns/iter (+/- 18,487)
 test silly_bench::entry_8         ... bench:  11,278,344 ns/iter (+/- 82,014)
 test silly_bench::get_or_insert_8 ... bench:   6,602,424 ns/iter (+/- 33,360)
 test silly_bench::entry_ownable_8 ... bench:   5,631,416 ns/iter (+/- 54,613)
+```
+
+`hashbrown::HashMap`:
+
+```
+test silly_bench::entry_1         ... bench:   1,469,848 ns/iter (+/- 9,229)
+test silly_bench::get_or_insert_1 ... bench:   1,489,309 ns/iter (+/- 10,865)
+test silly_bench::entry_ownable_1 ... bench:   1,370,580 ns/iter (+/- 5,152)
+
+test silly_bench::entry_2         ... bench:   2,351,940 ns/iter (+/- 10,374)
+test silly_bench::get_or_insert_2 ... bench:   1,801,549 ns/iter (+/- 12,360)
+test silly_bench::entry_ownable_2 ... bench:   1,634,317 ns/iter (+/- 7,421)
+
+test silly_bench::entry_4         ... bench:   4,418,648 ns/iter (+/- 18,059)
+test silly_bench::get_or_insert_4 ... bench:   2,451,798 ns/iter (+/- 10,702)
+test silly_bench::entry_ownable_4 ... bench:   2,292,556 ns/iter (+/- 16,042)
+
+test silly_bench::entry_8         ... bench:   8,350,365 ns/iter (+/- 39,678)
+test silly_bench::get_or_insert_8 ... bench:   3,837,979 ns/iter (+/- 20,885)
+test silly_bench::entry_ownable_8 ... bench:   3,749,296 ns/iter (+/- 5,678)
 ```
 
 ## License

@@ -2,3 +2,4 @@
 #![feature(test)]
 
 pub mod std_hash;
+pub mod hashbrown;
