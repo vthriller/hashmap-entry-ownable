@@ -7,6 +7,8 @@ Variation of `HashMap::entry()` that accepts borrowed forms of keys.
 For `std::collections::HashMap`, nightly version of Rust is required, along with the crate feature `nightly`.
 For details, see [`hash_raw_entry`](https://github.com/rust-lang/rust/issues/56167)).
 
+Support for [hashbrown](https://github.com/Amanieu/hashbrown/) can be enabled through crate feature aptly called `hashbrown`.
+
 `entry_ownable()` can be used as a drop-in replacement for `entry()`, *unless*:
 
 - `Entry::key()` is used,
@@ -42,10 +44,6 @@ but `entry_ownable()` variant:
 
 - is as concise as regular `entry()` one,
 - only hashes key once, while `get_mut()`/`insert()` does it twice if key is not in the map.
-
-## [hashbrown](https://github.com/Amanieu/hashbrown/) support
-
-`hashmap_entry_ownable::hashbrown::EntryAPI` can be enabled through crate feature aptly called `hashbrown`.
 
 ## Benchmarks
 
