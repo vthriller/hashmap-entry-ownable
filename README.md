@@ -42,6 +42,10 @@ but `entry_ownable()` variant:
 - is as concise as regular `entry()` one,
 - only hashes key once, while `get_mut()`/`insert()` does it twice if key is not in the map.
 
+## [hashbrown](https://github.com/Amanieu/hashbrown/) support
+
+`hashmap_entry_ownable::hashbrown::EntryAPI` can be enabled through crate feature aptly called `hashbrown`.
+
 ## Benchmarks
 
 `std::collections::HashMap`:
